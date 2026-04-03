@@ -106,7 +106,7 @@
   .press-meta {
     font-family: 'Space Mono', monospace;
     font-size: 0.75rem;
-    color: var(--accent4);
+    color: var(--text2);
     letter-spacing: 1px;
     margin-top: 20px;
   }
@@ -210,7 +210,7 @@
     font-size: 0.7rem;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: var(--accent4);
+    color: var(--text2);
     margin-bottom: 12px;
   }
   .section-heading {
@@ -526,7 +526,7 @@
     text-align: center;
     transition: all 0.2s;
   }
-  .quiz-option:hover { border-color: var(--accent4); background: rgba(77,150,255,0.1); }
+  .quiz-option:hover { border-color: var(--text2); background: rgba(77,150,255,0.1); }
   .quiz-option.correct { border-color: var(--accent3); background: rgba(107,203,119,0.2); color: var(--accent3); }
   .quiz-option.wrong { border-color: var(--accent1); background: rgba(255,107,107,0.2); color: var(--accent1); }
   .quiz-feedback {
@@ -650,7 +650,7 @@
   .match-card.face-down::after { content: '?'; color: white; font-family: 'Fredoka One', cursive; }
   .match-card.flipped, .match-card.matched { 
     background: var(--card);
-    border-color: var(--accent4);
+    border-color: var(--text2);
   }
   .match-card.matched { border-color: var(--accent3); background: rgba(107,203,119,0.15); }
   .match-card:hover:not(.matched):not(.flipped) { transform: scale(1.05); box-shadow: 0 8px 25px var(--glow4); }
@@ -858,7 +858,7 @@
     font-size: 0.82rem;
   }
   .footer-logo { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--accent2); margin-bottom: 8px; }
-  footer a { color: var(--accent4); text-decoration: none; }
+  footer a { color: var(--text2); text-decoration: none; }
 
   /* ===== CONFETTI ===== */
   .confetti-piece {
@@ -967,7 +967,7 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  .sorry-ans-btn:hover { border-color: var(--accent4); background: rgba(77,150,255,0.1); }
+  .sorry-ans-btn:hover { border-color: var(--text2); background: rgba(77,150,255,0.1); }
 </style>
 </head>
 <body>
@@ -980,7 +980,7 @@
   <div class="press-badge">📰 Official Press Release — March 2026</div>
   <h1 class="press-title">Fractions Just Got<br>Ridiculously Fun</h1>
   <p class="press-sub">The Montessori Magnetic Book Fraction Puzzle is rewriting how children ages 3–12 experience math — turning kitchen-table tears into triumphant "aha!" moments through tactile, play-based learning.</p>
-  <div class="press-meta">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; CONTACT: cs@pipiup.com &nbsp;·&nbsp; 📅 March 29, 2026</div>
+  <div class="press-meta">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; CONTACT: <a href="mailto:director@metaearthinitiative.org">director@metaearthinitiative.org</a> &nbsp;·&nbsp; 📅 March 29, 2026</div>
 </div>
 
 <div class="divider"></div>
@@ -1002,7 +1002,7 @@
       <div class="wave-bar" style="--d2:0.5s; animation-delay:0.5s"></div>
     </div>
   </div>
-  <button class="narrator-btn" onclick="event.stopPropagation(); narratorSpeak()">🔊 Hear Pip!</button>
+  <button class="narrator-btn" id="pip-btn" onclick="event.stopPropagation(); togglePip()">🔊 Hear Pip!</button>
 </div>
 
 <!-- ===== 7 REASONS ===== -->
@@ -1250,18 +1250,18 @@
 <div class="cta-section">
   <h2 class="cta-title">Give Your Child the Gift of Math Confidence</h2>
   <p class="cta-subtitle">Don't let another homework session end in tears. The Montessori Magnetic Fraction Puzzle is more than a toy — it's a foundation for lifelong learning.</p>
-  <a href="mailto:cs@pipiup.com" class="cta-btn">🎁 Get 50% OFF Today →</a>
-  <div class="cta-badge">🛡️ 90-Day Money-Back Guarantee &nbsp;·&nbsp; 🌍 SGS Safety Certified &nbsp;·&nbsp; 📦 Fast Shipping</div>
+  <a href="https://earthdirector.gumroad.com/l/cywam" class="cta-btn" target="_blank">🎁 Get Instant Access — $7.99 →</a>
+  <div class="cta-badge">🛡️ 30-Day Money-Back Guarantee &nbsp;·&nbsp; 🌍 Instantly Delivered &nbsp;·&nbsp; 📱 Works On Any Device</div>
 </div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
   <div class="footer-logo">🧲 Fraction Fun World</div>
-  <p>© 2026 Pipiup Educational Toys. All Rights Reserved.<br>
-  <a href="mailto:cs@pipiup.com">cs@pipiup.com</a> &nbsp;·&nbsp; 
-  <a href="#">Terms & Conditions</a> &nbsp;·&nbsp;
-  <a href="#">Shipping Policy</a> &nbsp;·&nbsp;
-  <a href="#">Refund Policy</a></p>
+  <p>© 2026 VTREI, LLC · MetaEarth Initiative. All Rights Reserved.<br>
+  <a href="mailto:director@metaearthinitiative.org">director@metaearthinitiative.org</a> &nbsp;·&nbsp; 
+  <a href="#" onclick="showPolicy('terms')">Terms &amp; Conditions</a> &nbsp;·&nbsp;
+  <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a> &nbsp;·&nbsp;
+  <a href="#" onclick="showPolicy('refund')">Refund Policy</a></p>
 </footer>
 
 <!-- ===== MODAL ===== -->
@@ -1275,7 +1275,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ===== STAR FIELD =====
 const sf = document.getElementById('starfield');
 for (let i = 0; i < 120; i++) {
@@ -1316,24 +1316,44 @@ const narratorLines = [
 ];
 let narratorIdx = 0;
 
+var pipPlaying = false;
+
+function stopPip() {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  document.getElementById('sound-wave').style.display = 'none';
+  const btn = document.getElementById('pip-btn');
+  if (btn) { btn.textContent = '🔊 Hear Pip!'; btn.style.background = ''; }
+  pipPlaying = false;
+}
+
+function togglePip() {
+  if (pipPlaying) { stopPip(); return; }
+  narratorSpeak();
+}
+
 function narratorSpeak() {
   const speech = document.getElementById('narrator-speech');
   const wave = document.getElementById('sound-wave');
   speech.textContent = narratorLines[narratorIdx % narratorLines.length];
   narratorIdx++;
   wave.style.display = 'flex';
-  
+  pipPlaying = true;
+  const btn = document.getElementById('pip-btn');
+  if (btn) { btn.textContent = '🔇 Stop Pip'; btn.style.background = '#ff6b6b'; }
+
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
-    const utt = new SpeechSynthesisUtterance(speech.textContent.replace(/[🌟🎉🍕💫⭐🦉🚀]/g,''));
-    utt.rate = 0.9;
-    utt.pitch = 1.2;
-    utt.voice = window.speechSynthesis.getVoices().find(v => v.name.includes('Female') || v.lang.includes('en')) || null;
-    utt.onend = () => wave.style.display = 'none';
+    const voices = window.speechSynthesis.getVoices();
+    const utt = new SpeechSynthesisUtterance(speech.textContent.replace(/[🌟🎉🍕💫⭐🦉🚀🌈🎊]/g,''));
+    utt.rate = 1.15;
+    utt.pitch = 2.0;
+    utt.volume = 1;
+    utt.voice = voices.find(v => v.name.includes('Zira') || v.name.includes('Samantha') || v.name.includes('Karen') || v.name.includes('Moira') || (v.lang === 'en-US' && v.name.includes('Female'))) || voices.find(v => v.lang === 'en-US') || null;
+    utt.onend = () => { wave.style.display = 'none'; pipPlaying = false; if (btn) { btn.textContent = '🔊 Hear Pip!'; btn.style.background = ''; } };
     window.speechSynthesis.speak(utt);
-    setTimeout(() => wave.style.display = 'none', 5000);
+    setTimeout(() => { if (pipPlaying) stopPip(); }, 6000);
   } else {
-    setTimeout(() => wave.style.display = 'none', 3000);
+    setTimeout(() => { wave.style.display = 'none'; pipPlaying = false; }, 3000);
   }
 }
 
@@ -1872,17 +1892,55 @@ function renderCheckers(body) {
     render();
     
     // Check win
-    const blues = board.flat().filter(c => c==='blue').length;
-    const reds = board.flat().filter(c => c==='red').length;
-    if (blues === 0) { message = "🏆 YOU WIN! All blue pieces captured!"; render(); }
-    if (reds === 0) { message = "😅 AI wins this time! Play again!"; render(); }
+    const blues = board.flat().filter(c => c==='blue');
+    const reds = board.flat().filter(c => c==='red');
+    if (blues.length === 0) { message = "🏆 You WIN! All blue pieces captured!"; render(); }
+    else if (reds.length === 0) { message = "💙 Blue wins! Try again!"; render(); }
   }
-
-  render();
 }
+</script>
 
-// ===== INIT =====
-window.speechSynthesis?.addEventListener('voiceschanged', () => {});
+<!-- ===== POLICY MODAL ===== -->
+<div id="policy-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:9999; overflow-y:auto; padding:40px 20px;">
+  <div style="max-width:700px; margin:0 auto; background:#1a1a32; border-radius:16px; padding:40px; color:#f0f0ff; font-family:Nunito,sans-serif; line-height:1.8; position:relative;">
+    <button onclick="document.getElementById('policy-modal').style.display='none'" style="position:absolute;top:16px;right:16px;background:#ff6b6b;border:none;color:white;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:1rem;font-weight:700;">Close</button>
+    <div id="policy-content"></div>
+  </div>
+</div>
+
+<div id="policy-data" style="display:none">
+  <div id="terms-text">
+    <h2 style="color:#ffd93d;margin-bottom:20px">Terms and Conditions</h2>
+    <p><strong>Effective Date:</strong> April 2, 2026</p><br>
+    <p>By purchasing or using Fraction Fun World, you agree to these terms set by VTREI, LLC, Tucson, Arizona.</p><br>
+    <p><strong>Digital Product:</strong> Delivered via web link. No physical product is shipped.</p><br>
+    <p><strong>License:</strong> Single-user, non-transferable license for personal or classroom use. Redistribution or resale is prohibited.</p><br>
+    <p><strong>Intellectual Property:</strong> All content, games, and characters are property of VTREI, LLC.</p><br>
+    <p><strong>Contact:</strong> director@metaearthinitiative.org · 520-258-2714</p>
+  </div>
+  <div id="privacy-text">
+    <h2 style="color:#6bcb77;margin-bottom:20px">Privacy Policy</h2>
+    <p><strong>Effective Date:</strong> April 2, 2026</p><br>
+    <p>VTREI, LLC respects your privacy. We collect only what is needed to process your purchase via Gumroad. We do not store payment data or sell your information.</p><br>
+    <p><strong>Children's Privacy:</strong> For use under parental supervision. We do not collect data from children under 13.</p><br>
+    <p><strong>Contact:</strong> director@metaearthinitiative.org</p>
+  </div>
+  <div id="refund-text">
+    <h2 style="color:#4d96ff;margin-bottom:20px">Refund Policy</h2>
+    <p><strong>Effective Date:</strong> April 2, 2026</p><br>
+    <p><strong>30-Day Money-Back Guarantee:</strong> Not satisfied? Contact us within 30 days for a full refund. No questions asked.</p><br>
+    <p><strong>How to Request:</strong> Email director@metaearthinitiative.org with your order number. Processed within 3-5 business days.</p><br>
+    <p><strong>Contact:</strong> director@metaearthinitiative.org · 520-258-2714</p>
+  </div>
+</div>
+
+<script>
+function showPolicy(type) {
+  var map = {terms:'terms-text', privacy:'privacy-text', refund:'refund-text'};
+  document.getElementById('policy-content').innerHTML = document.getElementById(map[type]).innerHTML;
+  document.getElementById('policy-modal').style.display = 'block';
+  document.getElementById('policy-modal').scrollTop = 0;
+}
 </script>
 </body>
 </html>
