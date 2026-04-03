@@ -1006,8 +1006,14 @@
     .press-meta {
       font-size: 0.65rem;
       letter-spacing: 0.5px;
-      line-height: 1.8;
+      line-height: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
     }
+    /* Hide the dot separators on mobile */
+    .press-meta .sep { display: none; }
     .divider { width: 120px; margin: 20px auto; }
 
     /* ── Narrator strip ── */
@@ -1045,10 +1051,10 @@
     }
     .reason-card { padding: 18px 16px; }
     .reason-num { font-size: 2rem; }
-    .reason-icon { font-size: 1.5rem; }
-    .reason-title { font-size: 0.95rem; }
-    .reason-body { font-size: 0.83rem; }
-    .reason-quote { font-size: 0.78rem; }
+    .reason-icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .reason-title { font-size: 1.08rem; line-height: 1.35; }
+    .reason-body { font-size: 0.95rem; line-height: 1.65; }
+    .reason-quote { font-size: 0.88rem; line-height: 1.55; padding: 10px 12px; }
 
     /* ── Stats bar — 2×2 grid ── */
     .stats-bar {
@@ -1066,11 +1072,37 @@
     .stat-num { font-size: 2rem; }
     .stat-label { font-size: 0.72rem; }
 
-    /* ── Comparison table — scrollable ── */
-    .compare-table th, .compare-table td {
-      padding: 10px 10px;
-      font-size: 0.78rem;
+    /* ── Comparison table — stacked card format on mobile ── */
+    .compare-table thead { display: none; }
+    .compare-table, .compare-table tbody, .compare-table tr, .compare-table td {
+      display: block;
+      width: 100%;
     }
+    .compare-table tr {
+      background: var(--card);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4px;
+      align-items: center;
+    }
+    .compare-table td {
+      padding: 4px 2px;
+      font-size: 0.78rem;
+      border-bottom: none;
+      line-height: 1.4;
+    }
+    .compare-table td:first-child {
+      font-size: 0.72rem;
+      color: var(--text2);
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .compare-table td:nth-child(2) { color: var(--accent3); text-align: center; }
+    .compare-table td:nth-child(3) { color: var(--text2); text-align: center; }
 
     /* ── Game world header ── */
     .game-world-header { padding: 28px 16px 6px; }
@@ -1160,8 +1192,12 @@
     }
     .cta-badge {
       white-space: normal;
-      font-size: 0.75rem;
-      line-height: 1.8;
+      font-size: 0.78rem;
+      line-height: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 10px;
     }
 
     /* ── Footer ── */
@@ -1192,7 +1228,7 @@
   <div class="press-badge">📰 Official Press Release — March 2026</div>
   <h1 class="press-title">Fractions Just Got<br>Ridiculously Fun</h1>
   <p class="press-sub">The Montessori Magnetic Book Fraction Puzzle is rewriting how children ages 3–12 experience math — turning kitchen-table tears into triumphant "aha!" moments through tactile, play-based learning.</p>
-  <div class="press-meta">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; CONTACT: <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> &nbsp;·&nbsp; 📅 March 29, 2026</div>
+  <div class="press-meta">FOR IMMEDIATE RELEASE <span class="sep">&nbsp;·&nbsp;</span> CONTACT: <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> <span class="sep">&nbsp;·&nbsp;</span> 📅 March 29, 2026</div>
 </div>
 
 <div class="divider"></div>
@@ -1470,7 +1506,7 @@
 <footer>
   <div class="footer-logo">🧲 Fraction Fun World</div>
   <p>© 2026 VTREI, LLC · MetaEarth Initiative. All Rights Reserved.<br>
-  <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> &nbsp;·&nbsp; 
+  <a href="/cdn-cgi/l/email-protection#7b1f12091e180f14095d584d4f40161e0f1a1e1a090f131215120f121a0f120d1e5514091c" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> &nbsp;·&nbsp; 
   <a href="#" onclick="showPolicy('terms')">Terms &amp; Conditions</a> &nbsp;·&nbsp;
   <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="#" onclick="showPolicy('refund')">Refund Policy</a></p>
@@ -1487,7 +1523,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ===== STAR FIELD =====
 const sf = document.getElementById('starfield');
 for (let i = 0; i < 120; i++) {
@@ -1558,8 +1594,8 @@ function narratorSpeak() {
     const speak = () => {
       const voices = window.speechSynthesis.getVoices();
       const utt = new SpeechSynthesisUtterance(speech.textContent.replace(/[🌟🎉🍕💫⭐🦉🚀🌈🎊]/g,''));
-      utt.rate = 1.2;
-      utt.pitch = 2.0;
+      utt.rate = 0.92;
+      utt.pitch = 1.6;
       utt.volume = 1;
       // Prioritize young/female voices, avoid deep male voices
       const preferred = voices.find(v => v.name.includes('Junior') || v.name.includes('junior'))
@@ -2190,16 +2226,11 @@ function renderCheckers(body) {
     <p><strong>Digital Product:</strong> Delivered via web link. No physical product is shipped.</p><br>
     <p><strong>License:</strong> Single-user, non-transferable license for personal or classroom use. Redistribution or resale is prohibited.</p><br>
     <p><strong>Intellectual Property:</strong> All content, games, and characters are property of VTREI, LLC.</p><br>
-    <p><strong>Contact:</strong> <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> · 520-258-2714</p>
+    <p><strong>Contact:</strong> <a href="/cdn-cgi/l/email-protection#1c78756e797f68736e3a3f2a28277179687d797d6e687475727568757d68756a7932736e7b" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> · 520-258-2714</p>
   </div>
   <div id="privacy-text">
     <h2 style="color:#6bcb77;margin-bottom:20px">Privacy Policy</h2>
     <p><strong>Effective Date:</strong> April 2, 2026</p><br>
     <p>VTREI, LLC respects your privacy. We collect only what is needed to process your purchase via Gumroad. We do not store payment data or sell your information.</p><br>
     <p><strong>Children's Privacy:</strong> For use under parental supervision. We do not collect data from children under 13.</p><br>
-    <p><strong>Contact:</strong> <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a></p>
-  </div>
-  <div id="refund-text">
-    <h2 style="color:#4d96ff;margin-bottom:20px">Refund Policy</h2>
-    <p><strong>Effective Date:</strong> April 2, 2026</p><br>
-    <p><strong>30-Day Money-Back Guarantee:</strong> Not satis
+    <p><strong>Contact:</strong> <a href="/cdn-cgi/l/email-protection#97f3fee5f2f4e3f8e5b1b4a1a3ac
