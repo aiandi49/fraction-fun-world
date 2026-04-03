@@ -978,6 +978,208 @@
     transition: all 0.2s;
   }
   .sorry-ans-btn:hover { border-color: var(--text2); background: rgba(77,150,255,0.1); }
+
+  /* ============================================================
+     MOBILE RESPONSIVE — max-width: 480px
+     Touches NOTHING above. Purely additive overrides.
+     ============================================================ */
+  @media (max-width: 480px) {
+
+    /* ── Body & global ── */
+    body { font-size: 15px; }
+
+    /* ── Press header ── */
+    .press-header { padding: 40px 16px 28px; }
+    .press-badge {
+      font-size: 9px;
+      letter-spacing: 2px;
+      padding: 5px 12px;
+    }
+    .press-title {
+      font-size: clamp(2rem, 11vw, 3rem);
+      line-height: 1.08;
+    }
+    .press-sub {
+      font-size: 0.95rem;
+      padding: 0 4px;
+    }
+    .press-meta {
+      font-size: 0.65rem;
+      letter-spacing: 0.5px;
+      line-height: 1.8;
+    }
+    .divider { width: 120px; margin: 20px auto; }
+
+    /* ── Narrator strip ── */
+    .narrator-strip {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      margin: 0 12px 28px;
+      border-radius: 16px;
+    }
+    .narrator-avatar { width: 52px; height: 52px; font-size: 1.6rem; }
+    .narrator-name { font-size: 1rem; }
+    .narrator-speech { font-size: 0.88rem; }
+    .narrator-btn {
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 12px;
+    }
+
+    /* ── Press section ── */
+    .press-section { padding: 0 12px; margin-bottom: 40px; }
+    .section-heading {
+      font-size: 1.3rem;
+      padding-left: 12px;
+      border-left-width: 3px;
+    }
+
+    /* ── Reasons grid — single column ── */
+    .reasons-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .reason-card { padding: 18px 16px; }
+    .reason-num { font-size: 2rem; }
+    .reason-icon { font-size: 1.5rem; }
+    .reason-title { font-size: 0.95rem; }
+    .reason-body { font-size: 0.83rem; }
+    .reason-quote { font-size: 0.78rem; }
+
+    /* ── Stats bar — 2×2 grid ── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 16px 8px;
+      border-radius: 16px;
+    }
+    .stat-item {
+      padding: 14px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .stat-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.05); }
+    .stat-num { font-size: 2rem; }
+    .stat-label { font-size: 0.72rem; }
+
+    /* ── Comparison table — scrollable ── */
+    .compare-table th, .compare-table td {
+      padding: 10px 10px;
+      font-size: 0.78rem;
+    }
+
+    /* ── Game world header ── */
+    .game-world-header { padding: 28px 16px 6px; }
+    .game-world-title { font-size: clamp(1.7rem, 9vw, 2.4rem); }
+    .game-world-sub { font-size: 0.88rem; }
+
+    /* ── Games grid — single column ── */
+    .games-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 0 12px;
+      margin-bottom: 40px;
+    }
+    .game-card-banner { height: 80px; font-size: 2.8rem; }
+    .game-card-body { padding: 14px; }
+    .game-card-name { font-size: 1.15rem; }
+    .game-card-desc { font-size: 0.8rem; margin-bottom: 10px; }
+    .play-btn {
+      padding: 13px;
+      font-size: 1.05rem;
+      border-radius: 10px;
+    }
+
+    /* ── Modal — full screen on mobile ── */
+    .modal-overlay { padding: 0; align-items: flex-end; }
+    .modal-box {
+      border-radius: 20px 20px 0 0;
+      max-height: 92vh;
+      width: 100%;
+    }
+    .modal-header { padding: 18px 18px 14px; }
+    .modal-title { font-size: 1.25rem; }
+    .modal-close { width: 32px; height: 32px; font-size: 1rem; }
+    .modal-body { padding: 16px; }
+
+    /* ── Quiz game ── */
+    .quiz-fraction-display { font-size: 2.2rem; margin: 14px 0; }
+    .quiz-question { font-size: 0.95rem; }
+    .quiz-options { gap: 8px; }
+    .quiz-option { padding: 13px 8px; font-size: 1.1rem; border-radius: 10px; }
+    .quiz-next-btn { width: 100%; text-align: center; padding: 13px; }
+    .score-num { font-size: 4rem; }
+
+    /* ── Frog game tiles ── */
+    .hop-tile { width: 56px; height: 56px; font-size: 0.8rem; border-radius: 10px; }
+    .frog-emoji { font-size: 1.5rem; }
+    .hop-fraction { font-size: 1.5rem; }
+
+    /* ── Memory match — tighter grid ── */
+    .match-grid { gap: 8px; }
+    .match-card { font-size: 1.1rem; border-radius: 10px; }
+
+    /* ── Checkers board — full width ── */
+    .checkers-board { max-width: 100%; gap: 2px; }
+    .chk-piece { width: 28px; height: 28px; font-size: 0.8rem; }
+
+    /* ── Sorry board cells ── */
+    .sorry-cell { width: 44px !important; height: 44px !important; }
+    .pawn-piece { width: 22px; height: 22px; font-size: 0.8rem; }
+    .sorry-q-text { font-size: 0.9rem; }
+    .sorry-ans-btn { padding: 7px 12px; font-size: 0.85rem; }
+    .sorry-answers { gap: 6px; }
+
+    /* ── Puzzle / Build-a-fraction ── */
+    .puzzle-equation { gap: 8px; padding: 14px; justify-content: center; }
+    .eq-slot { min-width: 64px; height: 44px; font-size: 1rem; }
+    .fraction-piece { padding: 8px 14px; font-size: 1rem; }
+    .check-eq-btn { padding: 10px 18px; font-size: 0.9rem; }
+
+    /* ── Testimonials — single column ── */
+    .testimonials { padding: 0 12px; margin-bottom: 40px; }
+    .testimonials-grid { grid-template-columns: 1fr; gap: 12px; }
+    .testimonial { padding: 16px; }
+    .testimonial-text { font-size: 0.83rem; }
+
+    /* ── CTA section ── */
+    .cta-section { padding: 40px 16px; margin-bottom: 50px; }
+    .cta-title { font-size: clamp(1.4rem, 7vw, 2rem); }
+    .cta-subtitle { font-size: 0.9rem; }
+    .cta-btn {
+      padding: 16px 28px;
+      font-size: 1.1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+      border-radius: 16px;
+    }
+    .cta-badge {
+      white-space: normal;
+      font-size: 0.75rem;
+      line-height: 1.8;
+    }
+
+    /* ── Footer ── */
+    footer { padding: 24px 16px; font-size: 0.78rem; line-height: 1.9; }
+    .footer-logo { font-size: 1.2rem; }
+  }
+
+  /* ── Tablet tweaks (481px – 768px) ── */
+  @media (min-width: 481px) and (max-width: 768px) {
+    .press-title { font-size: clamp(2.2rem, 8vw, 3.8rem); }
+    .games-grid { grid-template-columns: 1fr 1fr; gap: 16px; padding: 0 16px; }
+    .reasons-grid { grid-template-columns: 1fr 1fr; }
+    .narrator-strip { margin: 0 16px 30px; }
+    .modal-overlay { padding: 12px; }
+    .stats-bar { gap: 10px; padding: 20px 12px; }
+    .stat-num { font-size: 2.2rem; }
+    .cta-btn { padding: 16px 36px; font-size: 1.2rem; }
+  }
 </style>
 </head>
 <body>
@@ -990,7 +1192,7 @@
   <div class="press-badge">📰 Official Press Release — March 2026</div>
   <h1 class="press-title">Fractions Just Got<br>Ridiculously Fun</h1>
   <p class="press-sub">The Montessori Magnetic Book Fraction Puzzle is rewriting how children ages 3–12 experience math — turning kitchen-table tears into triumphant "aha!" moments through tactile, play-based learning.</p>
-  <div class="press-meta">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; CONTACT: <a href="/cdn-cgi/l/email-protection#32565b405751465d40725f574653575340465a5b5c5b465b53465b44571c5d4055"><span class="__cf_email__" data-cfemail="e6828f948385928994a68b839287838794928e8f888f928f87928f9083c8899481">[email&#160;protected]</span></a> &nbsp;·&nbsp; 📅 March 29, 2026</div>
+  <div class="press-meta">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; CONTACT: <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> &nbsp;·&nbsp; 📅 March 29, 2026</div>
 </div>
 
 <div class="divider"></div>
@@ -1268,7 +1470,7 @@
 <footer>
   <div class="footer-logo">🧲 Fraction Fun World</div>
   <p>© 2026 VTREI, LLC · MetaEarth Initiative. All Rights Reserved.<br>
-  <a href="/cdn-cgi/l/email-protection#ff9b968d9a9c8b908dbf929a8b9e9a9e8d8b979691968b969e8b96899ad1908d98"><span class="__cf_email__" data-cfemail="99fdf0ebfcfaedf6ebd9f4fcedf8fcf8ebedf1f0f7f0edf0f8edf0effcb7f6ebfe">[email&#160;protected]</span></a> &nbsp;·&nbsp; 
+  <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> &nbsp;·&nbsp; 
   <a href="#" onclick="showPolicy('terms')">Terms &amp; Conditions</a> &nbsp;·&nbsp;
   <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="#" onclick="showPolicy('refund')">Refund Policy</a></p>
@@ -1285,7 +1487,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ===== STAR FIELD =====
 const sf = document.getElementById('starfield');
 for (let i = 0; i < 120; i++) {
@@ -1988,14 +2190,14 @@ function renderCheckers(body) {
     <p><strong>Digital Product:</strong> Delivered via web link. No physical product is shipped.</p><br>
     <p><strong>License:</strong> Single-user, non-transferable license for personal or classroom use. Redistribution or resale is prohibited.</p><br>
     <p><strong>Intellectual Property:</strong> All content, games, and characters are property of VTREI, LLC.</p><br>
-    <p><strong>Contact:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="97f3fee5f2f4e3f8e5d7faf2e3f6f2f6e5e3fffef9fee3fef6e3fee1f2b9f8e5f0">[email&#160;protected]</a> · 520-258-2714</p>
+    <p><strong>Contact:</strong> <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a> · 520-258-2714</p>
   </div>
   <div id="privacy-text">
     <h2 style="color:#6bcb77;margin-bottom:20px">Privacy Policy</h2>
     <p><strong>Effective Date:</strong> April 2, 2026</p><br>
     <p>VTREI, LLC respects your privacy. We collect only what is needed to process your purchase via Gumroad. We do not store payment data or sell your information.</p><br>
     <p><strong>Children's Privacy:</strong> For use under parental supervision. We do not collect data from children under 13.</p><br>
-    <p><strong>Contact:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="25414c574046514a576548405144404457514d4c4b4c514c44514c53400b4a5742">[email&#160;protected]</a></p>
+    <p><strong>Contact:</strong> <a href="mailto:director&#64;metaearthinitiative.org" data-cfasync="false">director&#64;metaearthinitiative&#46;org</a></p>
   </div>
   <div id="refund-text">
     <h2 style="color:#4d96ff;margin-bottom:20px">Refund Policy</h2>
