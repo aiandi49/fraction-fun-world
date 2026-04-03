@@ -62,10 +62,11 @@
     text-align: center;
     padding: 60px 20px 40px;
     background: linear-gradient(180deg, #0a0a12 0%, transparent 100%);
+    overflow: visible;
   }
   .press-badge {
     display: inline-block;
-    background: var(--accent1);
+    background: var(--accent5);
     color: white;
     font-family: 'Space Mono', monospace;
     font-size: 11px;
@@ -77,8 +78,8 @@
     animation: pulse-badge 2s ease-in-out infinite;
   }
   @keyframes pulse-badge {
-    0%,100% { box-shadow: 0 0 0 0 var(--glow1); }
-    50% { box-shadow: 0 0 20px 8px var(--glow1); }
+    0%,100% { box-shadow: 0 0 0 0 var(--glow5); }
+    50% { box-shadow: 0 0 20px 8px var(--glow5); }
   }
   .press-title {
     font-family: 'Playfair Display', serif;
@@ -102,6 +103,8 @@
     max-width: 680px;
     margin: 0 auto 10px;
     line-height: 1.6;
+    position: relative;
+    z-index: 11;
   }
   .press-meta {
     font-family: 'Space Mono', monospace;
@@ -109,6 +112,13 @@
     color: var(--text2);
     letter-spacing: 1px;
     margin-top: 20px;
+  }
+  .press-meta a {
+    color: var(--text2);
+    text-decoration: none;
+  }
+  .press-meta a:hover {
+    color: var(--text);
   }
   .divider {
     width: 200px;
@@ -845,7 +855,7 @@
     50% { background-position: 100% 50%; }
   }
   .cta-btn:hover { transform: scale(1.05) translateY(-2px); }
-  .cta-badge { margin-top: 16px; color: var(--text2); font-size: 0.85rem; }
+  .cta-badge { margin-top: 16px; color: var(--text2); font-size: 0.85rem; white-space: nowrap; overflow-x: auto; }
 
   /* ===== FOOTER ===== */
   footer {
@@ -1343,15 +1353,34 @@ function narratorSpeak() {
 
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
-    const voices = window.speechSynthesis.getVoices();
-    const utt = new SpeechSynthesisUtterance(speech.textContent.replace(/[🌟🎉🍕💫⭐🦉🚀🌈🎊]/g,''));
-    utt.rate = 1.15;
-    utt.pitch = 2.0;
-    utt.volume = 1;
-    utt.voice = voices.find(v => v.name.includes('Zira') || v.name.includes('Samantha') || v.name.includes('Karen') || v.name.includes('Moira') || (v.lang === 'en-US' && v.name.includes('Female'))) || voices.find(v => v.lang === 'en-US') || null;
-    utt.onend = () => { wave.style.display = 'none'; pipPlaying = false; if (btn) { btn.textContent = '🔊 Hear Pip!'; btn.style.background = ''; } };
-    window.speechSynthesis.speak(utt);
-    setTimeout(() => { if (pipPlaying) stopPip(); }, 6000);
+    const speak = () => {
+      const voices = window.speechSynthesis.getVoices();
+      const utt = new SpeechSynthesisUtterance(speech.textContent.replace(/[🌟🎉🍕💫⭐🦉🚀🌈🎊]/g,''));
+      utt.rate = 1.2;
+      utt.pitch = 2.0;
+      utt.volume = 1;
+      // Prioritize young/female voices, avoid deep male voices
+      const preferred = voices.find(v => v.name.includes('Junior') || v.name.includes('junior'))
+        || voices.find(v => v.name.includes('Zira'))
+        || voices.find(v => v.name.includes('Samantha'))
+        || voices.find(v => v.name.includes('Karen'))
+        || voices.find(v => v.name.includes('Moira'))
+        || voices.find(v => v.name.includes('Tessa'))
+        || voices.find(v => v.lang === 'en-US' && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('girl')))
+        || voices.find(v => v.lang === 'en-US' && !v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('daniel') && !v.name.toLowerCase().includes('alex') && !v.name.toLowerCase().includes('fred') && !v.name.toLowerCase().includes('tom') && !v.name.toLowerCase().includes('bruce'))
+        || voices.find(v => v.lang === 'en-US')
+        || null;
+      utt.voice = preferred;
+      utt.onend = () => { wave.style.display = 'none'; pipPlaying = false; if (btn) { btn.textContent = '🔊 Hear Pip!'; btn.style.background = ''; } };
+      window.speechSynthesis.speak(utt);
+      setTimeout(() => { if (pipPlaying) stopPip(); }, 6000);
+    };
+    // Ensure voices are loaded before speaking
+    if (window.speechSynthesis.getVoices().length > 0) {
+      speak();
+    } else {
+      window.speechSynthesis.onvoiceschanged = speak;
+    }
   } else {
     setTimeout(() => { wave.style.display = 'none'; pipPlaying = false; }, 3000);
   }
@@ -1549,6 +1578,39 @@ function renderFrog(body) {
   render();
 }
 
+// ===== SOUND HELPER =====
+function playMatchSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    // Play a happy ascending chime
+    [523, 659, 784, 1047].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.25);
+      osc.start(ctx.currentTime + i * 0.12);
+      osc.stop(ctx.currentTime + i * 0.12 + 0.3);
+    });
+  } catch(e) {}
+}
+
+function playFlipSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = 440; osc.type = 'sine';
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+    osc.start(); osc.stop(ctx.currentTime + 0.12);
+  } catch(e) {}
+}
+
 // ===== MEMORY MATCH =====
 function renderMatch(body) {
   const pairs = [
@@ -1584,6 +1646,7 @@ function renderMatch(body) {
       const el = document.getElementById(`mc-${i}`);
       el.classList.remove('face-down');
       el.classList.add('flipped');
+      playFlipSound();
       flipped.push(i);
 
       if (flipped.length === 2) {
@@ -1592,6 +1655,7 @@ function renderMatch(body) {
         document.getElementById('move-count').textContent = moves;
         const [a, b] = flipped;
         if (cards[a].id === cards[b].id && a !== b) {
+          playMatchSound();
           matched.add(a); matched.add(b);
           document.getElementById(`mc-${a}`).classList.add('matched');
           document.getElementById(`mc-${b}`).classList.add('matched');
@@ -1779,124 +1843,132 @@ function renderCheckers(body) {
   ];
 
   // Simple 6x6 board
-  let board = Array(6).fill(null).map(() => Array(6).fill(null));
-  // Player (red) pieces on rows 0-1
-  // AI (blue) pieces on rows 4-5
-  for (let r=0;r<2;r++) for (let c=0;c<6;c++) if ((r+c)%2===0) board[r][c]='blue';
-  for (let r=4;r<6;r++) for (let c=0;c<6;c++) if ((r+c)%2===0) board[r][c]='red';
+  let board = [];
+  for (let r = 0; r < 6; r++) {
+    board.push([]);
+    for (let c = 0; c < 6; c++) {
+      board[r].push(null);
+    }
+  }
+  // Blue (AI) pieces on rows 0-1 on even cells
+  for (let r = 0; r < 2; r++) for (let c = 0; c < 6; c++) if ((r+c)%2===0) board[r][c]='blue';
+  // Red (player) pieces on rows 4-5 on even cells
+  for (let r = 4; r < 6; r++) for (let c = 0; c < 6; c++) if ((r+c)%2===0) board[r][c]='red';
 
   let selected = null;
-  let message = "Your turn! Select a red piece and move diagonally.";
+  let message = "Your turn! Select a red piece (🔴) and move diagonally.";
   let pendingCapture = null;
   let qIdx = 0;
 
-  function render() {
-    body.innerHTML = `
-      <p style="color:var(--text2);font-size:0.8rem;margin-bottom:10px">Answer fraction questions to capture pieces and WIN!</p>
-      <div class="checkers-board" id="chk-board">
-        ${board.map((row,r) => row.map((cell,c) => {
-          const isDark = (r+c)%2===1;
-          const isSelected = selected && selected[0]===r && selected[1]===c;
-          return `<div class="chk-cell ${isDark?'chk-dark':'chk-light'}" onclick="chkClick(${r},${c})" 
-            style="${isSelected?'box-shadow:0 0 12px var(--glow2);border:1px solid var(--accent2)':''}">
-            ${cell ? `<div class="chk-piece chk-${cell}${isSelected?' selected':''}">
-              ${cell==='red'?'🔴':'🔵'}
-            </div>` : ''}
-          </div>`;
-        }).join('')).join('')}
-      </div>
-      <div class="checkers-info">${message}</div>
-      ${pendingCapture ? `
-        <div class="sorry-question" style="margin-top:12px">
-          <div class="sorry-q-text">⚡ Answer to capture! ${fractionQs[qIdx%fractionQs.length].q}</div>
-          <div class="sorry-answers">
-            ${['3/4','2','1/4','1/2','2/3'].map(a => `
-              <button class="sorry-ans-btn" onclick="chkCapture('${a}','${fractionQs[qIdx%fractionQs.length].a}')">${a}</button>
-            `).join('')}
-          </div>
-        </div>
-      ` : ''}
-    `;
-
-    window.chkClick = (r, c) => {
-      if (pendingCapture) return;
-      if (board[r][c] === 'red') {
-        selected = [r, c];
-        message = "Good! Now click a diagonal square to move.";
-        render();
-      } else if (selected) {
-        const [sr, sc] = selected;
-        const dr = r - sr, dc = Math.abs(c - sc);
-        if (Math.abs(dr) === 1 && dc === 1 && !board[r][c]) {
-          // Normal move
-          board[r][c] = 'red';
-          board[sr][sc] = null;
-          selected = null;
-          message = "Nice move! AI is thinking... 🤔";
-          render();
-          setTimeout(() => aiMove(), 1000);
-        } else if (Math.abs(dr) === 2 && dc === 2) {
-          // Capture attempt
-          const mr = (sr+r)/2, mc = (sc+c)/2;
-          if (board[mr][mc] === 'blue' && !board[r][c]) {
-            pendingCapture = {sr,sc,r,c,mr,mc};
-            message = "Answer to capture that piece! 💥";
-            render();
-          } else {
-            selected = null; message = "Select a red piece."; render();
-          }
-        } else {
-          selected = null; message = "Select a red piece to move."; render();
-        }
-      }
-    };
-
-    window.chkCapture = (ans, correct) => {
-      if (ans === correct && pendingCapture) {
-        const {sr,sc,r,c,mr,mc} = pendingCapture;
+  window.chkClick = function(r, c) {
+    if (pendingCapture) return;
+    if (board[r][c] === 'red') {
+      selected = [r, c];
+      message = "Good! Now click a diagonal square to move.";
+      renderBoard();
+    } else if (selected) {
+      const sr = selected[0], sc = selected[1];
+      const dr = r - sr, dc = Math.abs(c - sc);
+      if (Math.abs(dr) === 1 && dc === 1 && !board[r][c]) {
         board[r][c] = 'red';
         board[sr][sc] = null;
-        board[mr][mc] = null;
-        message = "🎉 Captured! Well done!";
-        confetti();
-        qIdx++;
-      } else {
-        message = `💡 Wrong! The answer was ${fractionQs[qIdx%fractionQs.length].a}. AI captures YOU!`;
-        if (pendingCapture) {
-          const {sr,sc} = pendingCapture;
-          board[sr][sc] = null;
-          qIdx++;
+        selected = null;
+        message = "Nice move! AI is thinking... 🤔";
+        renderBoard();
+        setTimeout(function() { aiMove(); }, 1000);
+      } else if (Math.abs(dr) === 2 && dc === 2) {
+        const mr = (sr+r)/2, mc = (sc+c)/2;
+        if (board[mr][mc] === 'blue' && !board[r][c]) {
+          pendingCapture = {sr:sr,sc:sc,r:r,c:c,mr:mr,mc:mc};
+          message = "Answer to capture that piece! 💥";
+          renderBoard();
+        } else {
+          selected = null; message = "Can't move there! Select a red piece."; renderBoard();
         }
+      } else {
+        selected = null; message = "Select a red piece to move."; renderBoard();
       }
-      pendingCapture = null;
-      selected = null;
-      render();
-      setTimeout(() => { if (!pendingCapture) aiMove(); }, 1200);
-    };
-  }
+    } else {
+      message = "Select one of your red pieces (🔴) first!"; renderBoard();
+    }
+  };
+
+  window.chkCapture = function(ans, correct) {
+    if (ans === correct && pendingCapture) {
+      var pc = pendingCapture;
+      board[pc.r][pc.c] = 'red';
+      board[pc.sr][pc.sc] = null;
+      board[pc.mr][pc.mc] = null;
+      message = "🎉 Captured! Well done!";
+      confetti();
+      qIdx++;
+    } else {
+      var a = fractionQs[qIdx%fractionQs.length].a;
+      message = "💡 Wrong! Answer was " + a + ". AI captures YOU!";
+      if (pendingCapture) { board[pendingCapture.sr][pendingCapture.sc] = null; qIdx++; }
+    }
+    pendingCapture = null;
+    selected = null;
+    renderBoard();
+    setTimeout(function() { if (!pendingCapture) aiMove(); }, 1400);
+  };
 
   function aiMove() {
-    const moves = [];
-    for (let r=0;r<6;r++) for (let c=0;c<6;c++) {
+    var moves = [];
+    for (var r=0;r<6;r++) for (var c=0;c<6;c++) {
       if (board[r][c]==='blue') {
-        [[1,-1],[1,1]].forEach(([dr,dc]) => {
-          const nr=r+dr, nc=c+dc;
-          if (nr>=0&&nr<6&&nc>=0&&nc<6&&!board[nr][nc]) moves.push({r,c,nr,nc});
+        [[1,-1],[1,1]].forEach(function(d) {
+          var nr=r+d[0], nc=c+d[1];
+          if (nr>=0&&nr<6&&nc>=0&&nc<6&&!board[nr][nc]) moves.push({r:r,c:c,nr:nr,nc:nc});
         });
       }
     }
-    if (moves.length === 0) { message = "🏆 You WIN! No blue pieces can move!"; render(); return; }
-    const m = moves[Math.floor(Math.random()*moves.length)];
+    if (moves.length === 0) { message = "🏆 You WIN! Blue has no moves!"; renderBoard(); return; }
+    var m = moves[Math.floor(Math.random()*moves.length)];
     board[m.nr][m.nc]='blue'; board[m.r][m.c]=null;
     message = "Your turn! Select a red piece.";
-    render();
-    
-    // Check win
-    const blues = board.flat().filter(c => c==='blue');
-    const reds = board.flat().filter(c => c==='red');
-    if (blues.length === 0) { message = "🏆 You WIN! All blue pieces captured!"; render(); }
-    else if (reds.length === 0) { message = "💙 Blue wins! Try again!"; render(); }
+    var blues = 0, reds = 0;
+    for (var r2=0;r2<6;r2++) for (var c2=0;c2<6;c2++) { if(board[r2][c2]==='blue') blues++; if(board[r2][c2]==='red') reds++; }
+    if (blues === 0) message = "🏆 You WIN! All blue captured!";
+    else if (reds === 0) message = "💙 Blue wins! Try again!";
+    renderBoard();
   }
+
+  function renderBoard() {
+    var cells = '';
+    for (var r=0;r<6;r++) {
+      for (var c=0;c<6;c++) {
+        var isDark = (r+c)%2===1;
+        var isSelected = selected && selected[0]===r && selected[1]===c;
+        var cellStyle = isSelected ? 'box-shadow:0 0 12px var(--glow2);border:1px solid var(--accent2)' : '';
+        var pieceHtml = '';
+        if (board[r][c]) {
+          var pieceClass = 'chk-piece chk-' + board[r][c] + (isSelected ? ' selected' : '');
+          pieceHtml = '<div class="' + pieceClass + '">' + (board[r][c]==='red' ? '🔴' : '🔵') + '</div>';
+        }
+        cells += '<div class="chk-cell ' + (isDark?'chk-dark':'chk-light') + '" onclick="chkClick(' + r + ',' + c + ')" style="' + cellStyle + '">' + pieceHtml + '</div>';
+      }
+    }
+
+    var questionHtml = '';
+    if (pendingCapture) {
+      var q = fractionQs[qIdx%fractionQs.length];
+      var answerBtns = ['3/4','2','1/4','1/2','2/3'].map(function(a) {
+        return '<button class="sorry-ans-btn" onclick="chkCapture(\'' + a + '\',\'' + q.a + '\')">' + a + '</button>';
+      }).join('');
+      questionHtml = '<div class="sorry-question" style="margin-top:12px"><div class="sorry-q-text">⚡ Answer to capture! ' + q.q + '</div><div class="sorry-answers">' + answerBtns + '</div></div>';
+    }
+
+    var replayBtn = (message.includes('WIN') || message.includes('wins')) ? 
+      '<button class="quiz-next-btn show" style="margin-top:12px" onclick="renderCheckers(document.getElementById(\'modal-body\'))">🔄 Play Again!</button>' : '';
+
+    body.innerHTML = '<p style="color:var(--text2);font-size:0.8rem;margin-bottom:10px">Answer fraction questions to capture pieces and WIN! 🔴 = You &nbsp; 🔵 = AI</p>'
+      + '<div class="checkers-board">' + cells + '</div>'
+      + '<div class="checkers-info">' + message + '</div>'
+      + questionHtml + replayBtn;
+  }
+
+  renderBoard();
 }
 </script>
 
